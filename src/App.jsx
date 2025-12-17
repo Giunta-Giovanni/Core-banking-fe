@@ -6,7 +6,10 @@ import AccountPage from "./pages/AccountPage.jsx"
 import CardsPage from "./pages/CardsPage"
 import CardDetails from "./pages/CardDetails"
 import CreateCardPage from "./pages/CreateCardPage"
+import MovementsPage from "./pages/MovementsPage.jsx"
+
 import GlobalContextProvider from "./context/GlobalContextProvider.jsx"
+
 
 
 export default function App() {
@@ -24,6 +27,7 @@ export default function App() {
                 </Route>
                 <Route path="/account" element={<DefaultLayout />}>
                   <Route index element={<AccountPage />} />
+                  <Route path="/account/movements" element={MovementsPage}/>
                 </Route>
             </Routes>
           </GlobalContextProvider>

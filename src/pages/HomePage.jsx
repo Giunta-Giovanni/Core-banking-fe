@@ -25,7 +25,7 @@ export default function HomePage() {
         expires: 1,
         path: "/"
     });
-    navigate("/cards");
+    navigate("/account");
   };
 
   return (

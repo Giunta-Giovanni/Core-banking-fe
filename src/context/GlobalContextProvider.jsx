@@ -9,6 +9,8 @@ export default function GlobalContextProvider({ children }) {
     const [cards, setCards] = useState([]);
     const [accountNumber, setAccountNumber] = useState(null);
     const [message, setMessage] = useState(null);
+    const [account, setAccount] = useState([]);
+    const [movements, setMovements] = useState([])
 
     useEffect(() => {
     const acc = Cookies.get("accountNumber");
@@ -21,7 +23,6 @@ export default function GlobalContextProvider({ children }) {
     const endpoint = import.meta.env.VITE_BE_URL;  
     // fetch products data
     const fetchCards = () => {
-       
         if (!accountNumber) return;
         axios
         .get(`${endpoint}/cards/by-account/${accountNumber}`)
@@ -29,8 +30,27 @@ export default function GlobalContextProvider({ children }) {
         .catch(err => console.error(err));
     };
 
+    const fetchAccount = () => {
+    if (!accountNumber) return;
+
+    axios
+        .get(`${endpoint}/api/accounts/find/${accountNumber}`)
+        .then(res => {
+        setAccount(res.data);
+
+        // usa res.data.idAccount, non account.idAccount
+        return axios.get(`${endpoint}/ledger/${res.data.idAccount}/movements`);
+        })
+        .then(res2 => {
+        setMovements(res2.data);
+        })
+        .catch(err => console.error(err));
+    };
+
+
     // upload data after Pageload
     useEffect(() => {
+        fetchAccount();
         fetchCards();
     }, [accountNumber]);
 
@@ -43,7 +63,11 @@ export default function GlobalContextProvider({ children }) {
                 setAccountNumber,
                 fetchCards,
                 message, 
-                setMessage
+                setMessage,
+                account,
+                setAccount,
+                movements,
+                setMovements
           }}>
             {children}
           </GlobalContext.Provider>

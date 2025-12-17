@@ -90,11 +90,6 @@ export default function CardsDetails() {
 		setType(e.target.value);
 	};
 
-	const fetchLimit = (setTypeShow) => {
-		toggleAccordion(true);
-		setTypeShow((prev) => !prev);
-	};
-
 	const handleSubmit = () => {
 		if (blocked) handleCardUnlock();
 		else handleCardLock();
